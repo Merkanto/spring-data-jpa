@@ -2,7 +2,11 @@ package merkanto.springdatajpa.jdbc.dao;
 
 import merkanto.springdatajpa.jdbc.domain.Book;
 
+import java.util.List;
+
 public interface BookDao {
+
+    List<Book> findAllBooks();
 
     Book getById(Long id);
 
