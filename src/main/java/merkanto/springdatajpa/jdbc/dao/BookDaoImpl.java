@@ -3,6 +3,7 @@ package merkanto.springdatajpa.jdbc.dao;
 import jakarta.persistence.EntityNotFoundException;
 import merkanto.springdatajpa.jdbc.domain.Book;
 import merkanto.springdatajpa.jdbc.repositories.BookRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,11 @@ public class BookDaoImpl implements BookDao {
 
     public BookDaoImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
+    }
+
+    @Override
+    public List<Book> findAllBooks(Pageable pageable) {
+        return null;
     }
 
     @Override
