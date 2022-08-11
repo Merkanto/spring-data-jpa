@@ -1,18 +1,15 @@
-package merkanto.springdatajpa.dao;
+package merkanto.springdatajpa.jdbc.dao;
 
-import merkanto.springdatajpa.jdbc.dao.BookDao;
-import merkanto.springdatajpa.jdbc.dao.BookDaoJDBCTemplate;
 import merkanto.springdatajpa.jdbc.domain.Book;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -23,18 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("local")
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ComponentScan(basePackages = {"merkanto.jdbc.dao"})
-class BookDaoJDBCTemplateTest {
+@Import(BookDaoImpl.class)
+class BookDaoImplTest {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
-
     BookDao bookDao;
-
-    @BeforeEach
-    void setUp() {
-        bookDao = new BookDaoJDBCTemplate(jdbcTemplate);
-    }
 
     @Test
     void findAllBooksPage1_SortByTitle() {
@@ -156,8 +146,9 @@ class BookDaoJDBCTemplateTest {
 
         bookDao.deleteBookById(saved.getId());
 
-        assertThrows(EmptyResultDataAccessException.class, () -> {
+        assertThrows(JpaObjectRetrievalFailureException.class, () -> {
             bookDao.getById(saved.getId());
         });
     }
+
 }
