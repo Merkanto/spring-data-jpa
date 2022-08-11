@@ -4,7 +4,10 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import merkanto.springdatajpa.jdbc.domain.Author;
 import merkanto.springdatajpa.jdbc.repositories.AuthorRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class AuthorDaoImpl implements AuthorDao {
@@ -12,6 +15,11 @@ public class AuthorDaoImpl implements AuthorDao {
 
     public AuthorDaoImpl(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
+    }
+
+    @Override
+    public List<Author> findAllAuthorsByLastName(String lastName, Pageable pageable) {
+        return null;
     }
 
     @Override
